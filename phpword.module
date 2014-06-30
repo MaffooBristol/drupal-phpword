@@ -1,0 +1,77 @@
+<?php
+
+/**
+ * @file
+ * Main module file for PHPWord.
+ *
+ * Defines the menus, permissions and libraries info.
+ */
+
+module_load_include('inc', 'phpword');
+
+/**
+ * Implements hook_menu().
+ */
+function phpword_menu() {
+  return array(
+    'admin/config/system/phpword' => array(
+      'title' => 'PHPWord settings',
+      'description' => 'Manage PHPWord settings.',
+      'access arguments' => array('administer phpword'),
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('phpword_settings_form'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_permission().
+ */
+function phpword_permission() {
+  return array(
+    'administer phpword' => array(
+      'title' => t('Administer the phpword module settings'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function phpword_libraries_info() {
+  return array(
+    'phpword' => array(
+      'name' => 'PHPWord',
+      'vendor url' => 'https://github.com/PHPOffice/PHPWord',
+      'download url' => 'https://github.com/PHPOffice/PHPWord/releases',
+      'version arguments' => array(
+        'file' => 'VERSION',
+        'pattern' => "/(\d+\.\d+\.\d+)/",
+        'lines' => 1,
+      ),
+      'path' => 'src/PhpWord',
+      'files' => array(
+        'php' => array(
+          'Autoloader.php',
+        ),
+      ),
+      'xautoload' => function($adapter) {
+        $adapter->addPsr4('PHPOffice\PHPWord\\', 'src/PhpWord');
+        $adapter->ComposerJson('composer.json');
+      }
+    ),
+  );
+}
+
+/**
+ * Settings form.
+ */
+function phpexcel_settings_form() {
+  $form = array();
+
+  $form['description'] = array(
+    '#markup' => t('Dummy form... to be filled in later'),
+  );
+
+  return $form;
+}

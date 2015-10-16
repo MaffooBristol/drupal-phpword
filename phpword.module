@@ -56,9 +56,8 @@ function phpword_libraries_info() {
         ),
       ),
       'xautoload' => function($adapter) {
-        $adapter->addPsr4('PHPOffice\PHPWord\\', 'src/PhpWord');
         $adapter->ComposerJson('composer.json');
-      }
+      },
     ),
   );
 }
@@ -66,7 +65,7 @@ function phpword_libraries_info() {
 /**
  * Settings form.
  */
-function phpexcel_settings_form() {
+function phpword_settings_form() {
   $form = array();
 
   $form['description'] = array(

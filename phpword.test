@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * Simpletest unit tests.
+ */
+
+class PhpWordTest extends DrupalWebTestCase {
+
+  public function getInfo() {
+    return array(
+      'name' => t('Print a test page'),
+      'desc' => t('Instantiates, writes to and saves a PhpWord document.'),
+      'group' => t('PhpWord'),
+    );
+  }
+
+  public function setUp() {
+    parent::setUp(array('phpword'));
+    $this->privileged_user = $this->drupalCreateUser(array(
+      'administer phpword',
+      ));
+    $this->drupalLogin($this->privileged_user);
+  }
+
+  /**
+   * Create a test document to check that PhpWord is working as expected.
+   *
+   * @return object
+   *   An instantiated PhpWord object.
+   */
+  public function testPhpWord() {
+
+    $phpword = phpword();
+
+    $section = $phpword->addSection();
+
+    $bigBold = new \PhpOffice\PhpWord\Style\Font();
+    $bigBold->setBold(true);
+    $bigBold->setName('Ubuntu');
+    $bigBold->setSize(40);
+
+    $section->addText('Hello Word! :)', $bigBold);
+
+    $B = new \PhpOffice\PhpWord\Style\Font();
+    $B->setColor('ff89cf');
+    $B->setName('comic sans ms');
+    $B->setItalic();
+    $B->setSize(16);
+    $B->setBgColor('000');
+
+    $section->addText(" This should be a delightful colour of pink! ", $B);
+
+    $created_file = phpword_save('hello-world.docx');
+
+    $message = "Successfully created file $created_file->uri";
+
+    if (function_exists('drush_print_r')) {
+      drush_print_r($message);
+    }
+    else {
+      drupal_set_message($message);
+    }
+
+    $this->assertTrue(TRUE, 'Created!');
+  }
+
+}

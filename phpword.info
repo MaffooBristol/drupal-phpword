@@ -6,3 +6,4 @@ dependencies[] = xautoload (>=7.x-5.0-beta3)
 version        = 7.x-1.0
 php            = 5.3
 files[]        = /sites/all/libraries/phpword/src/PhpWord/**/*.php
+files[]        = phpword.test
